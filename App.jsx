@@ -1,165 +1,130 @@
 import { useState } from "react";
 import "./App.css";
-import shoes from "./data.js";
+import shoes from "./data";
 
-function App() { const [cart, setCart] = useState([]);
+function App() {
+  const [cart, setCart] = useState([]);
+
   function addToCart(shoe) {
-
     const item = cart.find((p) => p.id === shoe.id);
 
     if (item) {
+      const updatedCart = cart.map((p) =>
+        p.id === shoe.id
+          ? { ...p, quantity: p.quantity + 1 }
+          : p
+      );
 
-        const updatedCart = cart.map((p) =>
-
-            p.id === shoe.id
-                ? { ...p, quantity: p.quantity + 1 }
-                : p
-        );
-
-        setCart(updatedCart);
-
+      setCart(updatedCart);
     } else {
-
-        setCart([...cart, { ...shoe, quantity: 1 }]);
-
+      setCart([...cart, { ...shoe, quantity: 1 }]);
     }
+  }
 
-}
-function increaseQuantity(id) {
-
+  function increaseQuantity(id) {
     const updatedCart = cart.map((item) =>
-        item.id === id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+      item.id === id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
     );
 
     setCart(updatedCart);
+  }
 
-}
-
-function decreaseQuantity(id) {
-
+  function decreaseQuantity(id) {
     const item = cart.find((p) => p.id === id);
 
     if (item.quantity === 1) {
-
-        const updatedCart = cart.filter((p) => p.id !== id);
-
-        setCart(updatedCart);
-
+      const updatedCart = cart.filter((p) => p.id !== id);
+      setCart(updatedCart);
     } else {
+      const updatedCart = cart.map((item) =>
+        item.id === id
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
 
-        const updatedCart = cart.map((item) =>
-            item.id === id
-                ? { ...item, quantity: item.quantity - 1 }
-                : item
-        );
-
-        setCart(updatedCart);
-
+      setCart(updatedCart);
     }
+  }
 
-}
-const total = cart.reduce((sum, item) => {
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
-    return sum + item.price * item.quantity;
-
-}, 0);
-<header className="header">
-    <h1>👟 Online Shoe Store</h1>
-</header>
   return (
-    
-    <div className="container">
+    <>
+      <header className="header">
+        <h1>👟 Online Shoe Store</h1>
+      </header>
 
-      <div className="left">
+      <div className="container">
+        <div className="left">
+          <h2>Available Shoes</h2>
 
-        <h1>Online Shoe Store</h1>
+          <div className="shoe-list">
+            {shoes.map((shoe) => (
+              <div className="card" key={shoe.id}>
+                <img src={shoe.image} alt={shoe.name} />
 
-        <div className="shoe-list">
+                <h3>{shoe.name}</h3>
 
-          {shoes.map((shoe) => (
-            <div className="card" key={shoe.id}>
+                <p>₹ {shoe.price}</p>
 
-              <img src={shoe.image} alt={shoe.name} />
-
-              <h3>{shoe.name}</h3>
-
-              <p>₹ {shoe.price}</p>
-
-            <button onClick={() => addToCart(shoe)}>
-            Add to Cart
-            </button>
-
-            </div>
-          ))}
-
+                <button onClick={() => addToCart(shoe)}>
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
-      </div>
-      <div className="right">
+        <div className="right">
+          <h2>Shopping Cart</h2>
 
-    <h2>Shopping Cart</h2>
-
-    {
-        cart.length === 0 ? (
-
+          {cart.length === 0 ? (
             <p>No items added.</p>
-
-        ) : (
-
+          ) : (
             <>
-                {
-                    cart.map((item) => (
+              {cart.map((item) => (
+                <div className="cart-item" key={item.id}>
+                  <h4>{item.name}</h4>
 
-                       <div className="cart-item" key={item.id}>
+                  <p>Price : ₹ {item.price}</p>
 
-    <h4>{item.name}</h4>
+                  <div className="qty-box">
+                    <button
+                      className="qty-btn"
+                      onClick={() => decreaseQuantity(item.id)}
+                    >
+                      -
+                    </button>
 
-    <p>₹ {item.price}</p>
+                    <span>{item.quantity}</span>
 
-    <div className="qty-box">
+                    <button
+                      className="qty-btn"
+                      onClick={() => increaseQuantity(item.id)}
+                    >
+                      +
+                    </button>
+                  </div>
 
-        <button
-            className="qty-btn"
-            onClick={() => decreaseQuantity(item.id)}
-        >
-            -
-        </button>
+                  <p className="subtotal">
+                    Subtotal : ₹ {item.price * item.quantity}
+                  </p>
+                </div>
+              ))}
 
-        <span>{item.quantity}</span>
+              <hr />
 
-        <button
-            className="qty-btn"
-            onClick={() => increaseQuantity(item.id)}
-        >
-            +
-        </button>
-
-    </div>
-
-    <p className="subtotal">
-        Subtotal : ₹ {item.price * item.quantity}
-    </p>
-
-</div>
-
-                    ))
-                }
-
-                <hr />
-
-                <h3>Total : ₹ {total}</h3>
-
+              <h3>Total : ₹ {total}</h3>
             </>
-
-        )
-    }
-
-</div>
-     
-
-    </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 
