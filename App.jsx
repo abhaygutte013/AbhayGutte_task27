@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import shoes from "./data";
+import shoes from "./data.js";
 
 function App() { const [cart, setCart] = useState([]);
   function addToCart(shoe) {
