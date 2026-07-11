@@ -26,33 +26,6 @@ The project is created using React and the useState hook for state management.
 - JavaScript
 - CSS
 
----
-
-## Folder Structure
-
-hooks/
-│
-├── public/
-│   ├── shoe1.jpg
-│   ├── shoe2.jpg
-│   ├── shoe3.jpg
-│   ├── shoe4.jpg
-│   ├── shoe5.jpg
-│   ├── shoe6.jpg
-│   ├── shoe7.jpg
-│   └── shoe8.jpg
-│
-├── src/
-│   ├── App.jsx
-│   ├── App.css
-│   ├── data.js
-│   └── main.jsx
-│
-├── package.json
-├── package-lock.json
-├── vite.config.js
-└── README.md
-
 ## Installation
 
 Clone the repository or download the project.
