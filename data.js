@@ -3,13 +3,13 @@ const shoes = [
     id: 1,
     name: " Adidas Ultraboost",
     price: 4999,
-    image: "/shoe-1.jpg"
+    image: "shoe-1.jpg"
   },
   {
     id: 2,
     name: "Nike Air Max",
     price: 5999,
-    image: "/shoe-2.jpg"
+    image: "shoe-2.jpg"
   },
   {
     id: 3,
